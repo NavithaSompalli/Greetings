@@ -30,10 +30,12 @@ const languageGreetingsList = [
 class App extends Component {
   state = {
     tabId: languageGreetingsList[0].id,
+    isActiveTab: false,
   }
 
   selectLanguage = id => {
     this.setState({tabId: id})
+    this.setState(prevState => ({isActiveTab: !prevState.isActiveTab}))
   }
 
   renderGreetingCard = () => {
@@ -57,8 +59,9 @@ class App extends Component {
   }
 
   render() {
-    const {tabId} = this.state
-    console.log(tabId)
+    const {tabId, isActiveTab} = this.state
+    const btnClassName = isActiveTab ? 'active-tab-btn' : 'language-btn'
+    console.log(btnClassName)
     return (
       <div className="app-container">
         <h1 className="heading">Multilingual Greetings</h1>
@@ -67,7 +70,9 @@ class App extends Component {
             <li key={language.id}>
               <button
                 type="button"
-                className="language-btn"
+                className={
+                  language.id === tabId ? 'active-tab-btn' : 'language-btn'
+                }
                 onClick={() => this.selectLanguage(language.id)}
               >
                 {language.buttonText}
